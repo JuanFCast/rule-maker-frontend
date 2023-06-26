@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InvitAte</title>
+
+    <link rel="stylesheet" href="home-style.css">
+
+    <script src="https://kit.fontawesome.com/41bcea2ae3.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body id="body">
+    
+    <header>
+        <div class="icon__menu">
+            <i class="fas fa-bars" id="btn_open"></i>
+        </div>
+    </header>
+
+    <div class="menu__side" id="menu_side">
+
+        <div class="name__page">
+            <h4>InvitAte</h4>
+        </div>
+
+        <div class="options__menu">	
+
+            <a href="#">
+                <div class="option">
+                    <i class="fas fa-home" title="Inicio"></i>
+                    <h4>Inicio</h4>
+                </div>
+            </a>
+
+            <a href="CreateEvent_Page/CreateEvent.html" target="content-frame">
+                <div class="option">
+                    <h4>Crear eventos</h4>
+                </div>
+            </a>
+
+            <a href="EventsCalendar/EventsCalendar.html" target="content-frame">
+                <div class="option">
+                    <h4>Calendario de eventos</h4>
+                </div>
+            </a>
+
+            <a href="List_invitates/ListaDeInvitados.html" target="content-frame">
+                <div class="option">
+                    <h4>Enviar invitaciones</h4>
+                </div>
+            </a>
+
+
+            <a href="ConfirmAsist/confirm-asist.html" target="content-frame">
+                <div class="option">
+                    <h4>Confirmar asistencia a eventos</h4>
+                </div>
+            </a>
+
+        </div>
+
+    </div>
+
+    <main>
+        <iframe name="content-frame" style="width:100%; height:100%; border:none;"></iframe>
+    </main>
+
+    <script src="homepage.js"></script>
+</body>
+</html>
