@@ -40,16 +40,16 @@ main{
 }
 
 .caja__trasera div{
-    margin: 100px 40px;
+    margin: 70px 40px; /* Ajuste este margen si es necesario. Reduce el margen superior */
     color: white;
     transition: all 500ms;
 }
 
-
 .caja__trasera div p,
 .caja__trasera button{
-    margin-top: 30px;
+    margin-top: 20px; /* Reduce este margen si es necesario */
 }
+
 
 .caja__trasera div h3{
     font-weight: 400;
