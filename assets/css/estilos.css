@@ -174,3 +174,10 @@ main{
         position: relative;
     }
 }
+
+.logo {
+    width: 100px; /* Ajusta este tamaño si es necesario */
+    height: 100px; /* Ajusta este tamaño si es necesario */
+    display: block;
+    margin: auto;
+}
