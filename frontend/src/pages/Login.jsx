@@ -1,21 +1,18 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import logo from '../assets/logo.jpeg';
 
-import styles from "./styles.module.scss";
+import styles from "../style/styles.module.scss";
 
-const Register = () => {
-  const [inputs, setInputs] = useState({
-    correo: "",
-    nombre: "",
-    contraseña: "",
-  });
+const Login = () => {
+  const [inputs, setInputs] = useState({ correo: "", contraseña: "" });
   const [mensaje, setMensaje] = useState();
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 
-  const { nombre, contraseña, correo } = inputs;
+  const { correo, contraseña } = inputs;
 
   const HandleChange = (e) => {
     setInputs({ ...inputs, [e.target.name]: e.target.value });
@@ -23,32 +20,31 @@ const Register = () => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    if (nombre !== "" && contraseña !== "" && correo !== "") {
+    if (correo !== "" && contraseña !== "") {
       const Usuario = {
-        nombre,
         correo,
         contraseña,
       };
       setLoading(true);
       await axios
-        .post("http://localhost:4000/register", Usuario)
+        .post("http://localhost:4000/login", Usuario)
         .then((res) => {
           const { data } = res;
           setMensaje(data.mensaje);
-          setInputs({ nombre: "", contraseña: "", correo: "" });
           setTimeout(() => {
             setMensaje("");
-            navigate("/login");
+            localStorage.setItem("token", data?.usuario.token);
+            navigate(`/welcome`);
           }, 1500);
         })
         .catch((error) => {
           console.error(error);
-          setMensaje("Hubo un error");
+          setMensaje("Correo u contraseña incorrecta");
           setTimeout(() => {
             setMensaje("");
           }, 1500);
         });
-
+      setInputs({ correo: "", contraseña: "" });
       setLoading(false);
     }
   };
@@ -56,34 +52,12 @@ const Register = () => {
   return (
     <>
       <div className={styles.formContainer}>
-        <h3>Bienvenido a la pagina</h3>
-        <h2>De Registro!</h2>
+        <div className={styles.logoTitleContainer}>
+          <h3>Motor de Reglas by</h3>
+          <img src={logo} alt="Logo de Perficient" className={styles.logo} />
+        </div>
+        <h2>Iniciar Sesión</h2>
         <form onSubmit={(e) => onSubmit(e)}>
-          <div className={styles.inputContainer}>
-            <div className={styles.left}>
-              <label htmlFor="nombre">Nombre</label>
-              <input
-                onChange={(e) => HandleChange(e)}
-                value={nombre}
-                name="nombre"
-                id="nombre"
-                type="text"
-                placeholder="Nombre..."
-                autoComplete="off"
-              />
-            </div>
-            <svg
-              viewBox="0 0 30 32"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M7.5 7.41419C7.5 11.5019 10.865 14.8284 15 14.8284C19.135 14.8284 22.5 11.5019 22.5 7.41419C22.5 3.3265 19.135 0 15 0C10.865 0 7.5 3.3265 7.5 7.41419ZM28.3333 31.3043H28.3524C29.2623 31.3043 30 30.5667 30 29.6568C30 23.2987 24.765 18.1236 18.3333 18.1236H11.6667C5.23333 18.1236 0 23.2987 0 29.6568C0 30.5667 0.737655 31.3043 1.6476 31.3043H28.3333Z"
-                fill="black"
-              />
-            </svg>
-          </div>
-
           <div className={styles.inputContainer}>
             <div className={styles.left}>
               <label htmlFor="correo">Correo</label>
@@ -133,19 +107,19 @@ const Register = () => {
               />
             </svg>
           </div>
-
           <button type="submit">
-            {loading ? "Cargando..." : "Registrarme"}
+            {loading ? "Cargando..." : "Iniciar Sesión"}
           </button>
           <p>
-            Ya tienes una cuenta?{" "}
-            <b onClick={() => navigate("/login")}>Inicia Sesión!</b>
+            ¿Aun no tienes cuenta?{" "}
+            <b onClick={() => navigate("/")}>Registrate!</b>
           </p>
         </form>
       </div>
+
       {mensaje && <div className={styles.toast}>{mensaje}</div>}
     </>
   );
 };
 
-export default Register;
+export default Login;

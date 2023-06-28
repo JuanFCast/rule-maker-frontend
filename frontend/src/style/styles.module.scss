@@ -10,7 +10,7 @@
     justify-content: center;
   
     h3 {
-      font-size: 20px;
+      font-size: 30px; // Incrementa este valor para hacer el título más grande
       font-weight: normal;
       color: #2f2f2f;
     }
@@ -18,7 +18,7 @@
     h2 {
       font-size: 30px;
       font-weight: bolder;
-      color: #6358dc;
+      color: #dc5858;
     }
   
     form {
@@ -69,13 +69,13 @@
         font-weight: 700;
         font-size: 16px;
         color: white;
-        background-color: #6358dc;
+        background-color: #dc5858;
         border-radius: 8px;
         transition-duration: 0.3s;
       }
   
       button:hover {
-        background-color: #4235d6;
+        background-color: #dc5858;
       }
   
       p {
@@ -84,7 +84,7 @@
   
         b {
           cursor: pointer;
-          color: #6358dc;
+          color: #dc5858;
         }
   
         b:hover {
@@ -92,11 +92,23 @@
         }
       }
     }
+    .logoTitleContainer {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+  
+    .logo {
+      max-width: 100px; // Incrementa este valor para hacer el logo más grande
+      height: auto;
+    }
+
   }
   
   .toast {
     transition-duration: 0.3s;
-    background-color: #6358dc75;
+    background-color: #dc5858;
     border-radius: 8px;
     width: 30%;
     text-align: center;
@@ -130,7 +142,7 @@
       margin-top: 15px;
   
       button {
-        background-color: #6358dc;
+        background-color: #dc5858;
         border: none;
         cursor: pointer;
         color: white;
@@ -140,7 +152,8 @@
       }
   
       button:hover {
-        background-color: #4235d6;
+        background-color: #dc5858;
       }
     }
   }
+  
