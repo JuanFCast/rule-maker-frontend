@@ -14,48 +14,26 @@ Para ejecutar este proyecto en tu computadora local, sigue los siguientes pasos:
 
    ```bash
    git clone https://github.com/JuanFCast/rule-maker-frontend.git
-Navega al directorio del proyecto:
 
-bash
-Copy code
-cd rule-maker-frontend/frontend
-Instala las dependencias del proyecto:
+2. Navega al directorio del proyecto:
 
-bash
-Copy code
-npm install
-Instala las dependencias adicionales del proyecto:
+   ```bash
+   cd rule-maker-frontend/frontend
 
-bash
-Copy code
-npm i react-router-dom sass  
-npm install axios
-Inicia el servidor de desarrollo:
+3. Instala las dependencias del proyecto:
 
-bash
-Copy code
-npm start
+   ```bash
+   npm install
+   
+4. Instala las dependencias adicionales del proyecto:
+
+   ```bash
+   npm i react-router-dom sass
+   npm install axios
+   
+5. Inicia el servidor de desarrollo:
+
+   ```bash
+   npm start
+   
 Este comando iniciará la aplicación en modo de desarrollo. Abre http://localhost:3000 para ver la aplicación en tu navegador. La página se recargará si haces modificaciones en el código fuente.
-
-Para ejecutar las pruebas del proyecto, utiliza el siguiente comando:
-
-bash
-Copy code
-npm test
-Este comando lanzará el corredor de pruebas en el modo interactivo de observación.
-
-Para crear una versión de producción de la aplicación, utiliza el siguiente comando:
-
-bash
-Copy code
-npm run build
-Este comando construirá la aplicación para producción en la carpeta build. Agrupará correctamente React en modo de producción y optimizará la construcción para obtener el mejor rendimiento.
-
-Para personalizar la configuración de construcción, utiliza el siguiente comando:
-
-bash
-Copy code
-npm run eject
-Este comando copiará todos los archivos de configuración y las dependencias transitivas (webpack, Babel, ESLint, etc.) directamente en tu proyecto para que tengas un control total sobre ellos.
-
-r
