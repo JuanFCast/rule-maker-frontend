@@ -32,7 +32,7 @@ const Register = () => {
       };
       setLoading(true);
       await axios
-        .post("http://localhost:4000/register", Usuario)
+        .post("http://localhost:4000/create", Usuario) //Cambio de /register a /create
         .then((res) => {
           const { data } = res;
           setMensaje(data.mensaje);

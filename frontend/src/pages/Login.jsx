@@ -27,7 +27,7 @@ const Login = () => {
       };
       setLoading(true);
       await axios
-        .post("http://localhost:4000/login", Usuario)
+      .post("http://localhost:4000/token", Usuario) //Cambio de /login a /token  
         .then((res) => {
           const { data } = res;
           setMensaje(data.mensaje);
