@@ -30,6 +30,7 @@ Para ejecutar este proyecto en tu computadora local, sigue los siguientes pasos:
    ```bash
    npm i react-router-dom sass
    npm install axios
+   npm i bootstrap reactstrap
    
 5. Inicia el servidor de desarrollo:
 
