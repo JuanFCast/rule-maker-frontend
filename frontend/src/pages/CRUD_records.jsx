@@ -1,24 +1,18 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import {
-  Table,
-  Button,
-  Container,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  FormGroup,
-  ModalFooter,
-} from "reactstrap";
+import { Button, Container } from "reactstrap";
+import RecordsTable from '../components/RecordsTable';
+import UpdateRecordModal from '../components/UpdateRecordModal';
+import InsertRecordModal from '../components/InsertRecordModal';
 
 const data = [
   { id: 1, personaje: "Naruto", anime: "Naruto", poder: "Rasengan" },
-  { id: 2, personaje: "Goku", anime: "Dragon Ball", poder: "Kamehameha" }
+  { id: 2, personaje: "Goku", anime: "Dragon Ball", poder: "Kamehameha" },
 ];
 
 class CRUD_records extends React.Component {
   state = {
-    data: data,
+    data,
     modalActualizar: false,
     modalInsertar: false,
     form: {
@@ -42,41 +36,36 @@ class CRUD_records extends React.Component {
 
   mostrarModalInsertar = () => {
     this.setState({
+      form: {
+        id: "",
+        personaje: "",
+        anime: "",
+        poder: ""
+      },
       modalInsertar: true,
     });
   };
+  
 
   cerrarModalInsertar = () => {
     this.setState({ modalInsertar: false });
   };
 
   editar = (dato) => {
-    var arreglo = this.state.data;
-    var index = arreglo.findIndex(item => item.id === dato.id);
-    arreglo[index] = dato;
+    const arreglo = this.state.data.map(item => item.id === dato.id ? dato : item);
     this.setState({ data: arreglo, modalActualizar: false });
   };
 
   eliminar = (dato) => {
-    var opcion = window.confirm("Estás Seguro que deseas Eliminar el elemento "+dato.id);
-    if (opcion == true) {
-      var contador = 0;
-      var arreglo = this.state.data;
-      arreglo.map((registro) => {
-        if (dato.id == registro.id) {
-          arreglo.splice(contador, 1);
-        }
-        contador++;
-      });
+    if (window.confirm("Estás Seguro que deseas Eliminar el elemento "+dato.id)) {
+      const arreglo = this.state.data.filter(item => item.id !== dato.id);
       this.setState({ data: arreglo, modalActualizar: false });
     }
   };
 
   insertar = () => {
-    var valorNuevo= {...this.state.form};
-    valorNuevo.id=this.state.data.length+1;
-    var lista= this.state.data;
-    lista.push(valorNuevo);
+    const valorNuevo = { ...this.state.form, id: this.state.data.length + 1 };
+    const lista = [...this.state.data, valorNuevo];
     this.setState({ modalInsertar: false, data: lista });
   }
 
@@ -90,198 +79,23 @@ class CRUD_records extends React.Component {
   };
 
   render() {
-    
+    const { data, form, modalActualizar, modalInsertar } = this.state;
+
     return (
       <>
         <Container>
         <br />
-          <Button color="success" onClick={()=>this.mostrarModalInsertar()}>Crear</Button>
+          <Button color="success" onClick={this.mostrarModalInsertar}>Insertar nuevo registro</Button>
           <br />
           <br />
-          <Table>
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Personaje</th>
-                <th>Anime</th>
-                <th>Poder</th> 
-                <th>Acción</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              {this.state.data.map((dato) => (
-                <tr key={dato.id}>
-                  <td>{dato.id}</td>
-                  <td>{dato.personaje}</td>
-                  <td>{dato.anime}</td>
-                  <td>{dato.poder}</td> 
-                  <td>
-                    <Button
-                      color="primary"
-                      onClick={() => this.mostrarModalActualizar(dato)}
-                    >
-                      Editar
-                    </Button>{" "}
-                    <Button color="danger" onClick={()=> this.eliminar(dato)}>Eliminar</Button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </Table>
+          <RecordsTable data={data} mostrarModalActualizar={this.mostrarModalActualizar} eliminar={this.eliminar} />
         </Container>
 
-        <Modal isOpen={this.state.modalActualizar}>
-          <ModalHeader>
-           <div><h3>Editar Registro</h3></div>
-          </ModalHeader>
-
-          <ModalBody>
-            <FormGroup>
-              <label>
-               Id:
-              </label>
-            
-              <input
-                className="form-control"
-                readOnly
-                type="text"
-                value={this.state.form.id}
-              />
-            </FormGroup>
-            
-            <FormGroup>
-              <label>
-                Personaje: 
-              </label>
-              <input
-                className="form-control"
-                name="personaje"
-                type="text"
-                onChange={this.handleChange}
-                value={this.state.form.personaje}
-              />
-            </FormGroup>
-            
-            <FormGroup>
-              <label>
-                Anime: 
-              </label>
-              <input
-                className="form-control"
-                name="anime"
-                type="text"
-                onChange={this.handleChange}
-                value={this.state.form.anime}
-              />
-            </FormGroup>
-
-            <FormGroup>
-              <label>
-                Poder:
-              </label>
-              <input
-                className="form-control"
-                name="poder"
-                type="text"
-                onChange={this.handleChange}
-                value={this.state.form.poder}
-              />
-            </FormGroup>
-          </ModalBody>
-
-          <ModalFooter>
-            <Button
-              color="primary"
-              onClick={() => this.editar(this.state.form)}
-            >
-              Editar
-            </Button>
-            <Button
-              color="danger"
-              onClick={() => this.cerrarModalActualizar()}
-            >
-              Cancelar
-            </Button>
-          </ModalFooter>
-        </Modal>
-
-
-
-        <Modal isOpen={this.state.modalInsertar}>
-          <ModalHeader>
-           <div><h3>Insertar Personaje</h3></div>
-          </ModalHeader>
-
-          <ModalBody>
-            <FormGroup>
-              <label>
-                Id: 
-              </label>
-              
-              <input
-                className="form-control"
-                readOnly
-                type="text"
-                value={this.state.data.length+1}
-              />
-            </FormGroup>
-            
-            <FormGroup>
-              <label>
-                Personaje: 
-              </label>
-              <input
-                className="form-control"
-                name="personaje"
-                type="text"
-                onChange={this.handleChange}
-              />
-            </FormGroup>
-            
-            <FormGroup>
-              <label>
-                Anime: 
-              </label>
-              <input
-                className="form-control"
-                name="anime"
-                type="text"
-                onChange={this.handleChange}
-              />
-            </FormGroup>
-
-            <FormGroup>
-              <label>
-                Poder:
-              </label>
-              <input
-                className="form-control"
-                name="poder"
-                type="text"
-                onChange={this.handleChange}
-                value={this.state.form.poder}
-              />
-            </FormGroup>
-          </ModalBody>
-
-          <ModalFooter>
-            <Button
-              color="primary"
-              onClick={() => this.insertar()}
-            >
-              Insertar
-            </Button>
-            <Button
-              className="btn btn-danger"
-              onClick={() => this.cerrarModalInsertar()}
-            >
-              Cancelar
-            </Button>
-          </ModalFooter>
-        </Modal>
+        <UpdateRecordModal isOpen={modalActualizar} form={form} cerrarModalActualizar={this.cerrarModalActualizar} handleChange={this.handleChange} editar={this.editar} />
+        <InsertRecordModal isOpen={modalInsertar} form={form} cerrarModalInsertar={this.cerrarModalInsertar} handleChange={this.handleChange} insertar={this.insertar} data={data} />
       </>
     );
   }
 }
+
 export default CRUD_records;
