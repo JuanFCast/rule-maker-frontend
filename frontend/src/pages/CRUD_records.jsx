@@ -12,12 +12,8 @@ import {
 } from "reactstrap";
 
 const data = [
-  { id: 1, personaje: "Naruto", anime: "Naruto" },
-  { id: 2, personaje: "Goku", anime: "Dragon Ball" },
-  { id: 3, personaje: "Kenshin Himura", anime: "Rurouni Kenshin" },
-  { id: 4, personaje: "Monkey D. Luffy", anime: "One Piece" },
-  { id: 5, personaje: "Edward Elric", anime: "Fullmetal Alchemist: Brotherhood"},
-  { id: 6, personaje: "Seto Kaiba", anime: "Yu-Gi-Oh!" },
+  { id: 1, personaje: "Naruto", anime: "Naruto", poder: "Rasengan" },
+  { id: 2, personaje: "Goku", anime: "Dragon Ball", poder: "Kamehameha" }
 ];
 
 class CRUD_records extends React.Component {
@@ -29,6 +25,7 @@ class CRUD_records extends React.Component {
       id: "",
       personaje: "",
       anime: "",
+      poder: ""
     },
   };
 
@@ -54,15 +51,9 @@ class CRUD_records extends React.Component {
   };
 
   editar = (dato) => {
-    var contador = 0;
     var arreglo = this.state.data;
-    arreglo.map((registro) => {
-      if (dato.id == registro.id) {
-        arreglo[contador].personaje = dato.personaje;
-        arreglo[contador].anime = dato.anime;
-      }
-      contador++;
-    });
+    var index = arreglo.findIndex(item => item.id === dato.id);
+    arreglo[index] = dato;
     this.setState({ data: arreglo, modalActualizar: false });
   };
 
@@ -81,7 +72,7 @@ class CRUD_records extends React.Component {
     }
   };
 
-  insertar= ()=>{
+  insertar = () => {
     var valorNuevo= {...this.state.form};
     valorNuevo.id=this.state.data.length+1;
     var lista= this.state.data;
@@ -113,6 +104,7 @@ class CRUD_records extends React.Component {
                 <th>ID</th>
                 <th>Personaje</th>
                 <th>Anime</th>
+                <th>Poder</th> 
                 <th>Acción</th>
               </tr>
             </thead>
@@ -123,6 +115,7 @@ class CRUD_records extends React.Component {
                   <td>{dato.id}</td>
                   <td>{dato.personaje}</td>
                   <td>{dato.anime}</td>
+                  <td>{dato.poder}</td> 
                   <td>
                     <Button
                       color="primary"
@@ -180,6 +173,19 @@ class CRUD_records extends React.Component {
                 type="text"
                 onChange={this.handleChange}
                 value={this.state.form.anime}
+              />
+            </FormGroup>
+
+            <FormGroup>
+              <label>
+                Poder:
+              </label>
+              <input
+                className="form-control"
+                name="poder"
+                type="text"
+                onChange={this.handleChange}
+                value={this.state.form.poder}
               />
             </FormGroup>
           </ModalBody>
@@ -242,6 +248,19 @@ class CRUD_records extends React.Component {
                 name="anime"
                 type="text"
                 onChange={this.handleChange}
+              />
+            </FormGroup>
+
+            <FormGroup>
+              <label>
+                Poder:
+              </label>
+              <input
+                className="form-control"
+                name="poder"
+                type="text"
+                onChange={this.handleChange}
+                value={this.state.form.poder}
               />
             </FormGroup>
           </ModalBody>
