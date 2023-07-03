@@ -5,14 +5,16 @@ import logo from '../assets/logo.jpeg';
 
 import styles from "../style/styles.module.scss";
 
+const baseUrl = "http://localhost:8080";
+
 const Login = () => {
-  const [inputs, setInputs] = useState({ correo: "", contraseña: "" });
+  const [inputs, setInputs] = useState({ username: "", password: "" });
   const [mensaje, setMensaje] = useState();
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 
-  const { correo, contraseña } = inputs;
+  const { username, password } = inputs;
 
   const HandleChange = (e) => {
     setInputs({ ...inputs, [e.target.name]: e.target.value });
@@ -20,20 +22,28 @@ const Login = () => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    if (correo !== "" && contraseña !== "") {
+    if (username !== "" && password !== "") {
       const Usuario = {
-        correo,
-        contraseña,
+        username,
+        password,
       };
       setLoading(true);
       await axios
-      .post("http://localhost:4000/token", Usuario) //Cambio de /login a /token  
-        .then((res) => {
-          const { data } = res;
-          setMensaje(data.mensaje);
+      .post(
+        baseUrl + "/token",
+        Usuario,
+        {
+            headers: {
+                "Access-Control-Allow-Origin": baseUrl,
+                "Content-Type": "application/json"
+            },
+        }
+      ).then((res) => {
+          const { response } = res;
+          console.log(res.data.token);
           setTimeout(() => {
             setMensaje("");
-            localStorage.setItem("token", data?.usuario.token);
+            localStorage.setItem("jwt", res.data.token);
             navigate(`/welcome`);
           }, 1500);
         })
@@ -44,7 +54,7 @@ const Login = () => {
             setMensaje("");
           }, 1500);
         });
-      setInputs({ correo: "", contraseña: "" });
+      setInputs({ username: "", password: "" });
       setLoading(false);
     }
   };
@@ -60,12 +70,12 @@ const Login = () => {
         <form onSubmit={(e) => onSubmit(e)}>
           <div className={styles.inputContainer}>
             <div className={styles.left}>
-              <label htmlFor="correo">Correo</label>
+              <label htmlFor="username">Correo</label>
               <input
                 onChange={(e) => HandleChange(e)}
-                value={correo}
-                name="correo"
-                id="correo"
+                value={username}
+                name="username"
+                id="username"
                 type="email"
                 placeholder="Correo..."
                 autoComplete="off"
@@ -85,12 +95,12 @@ const Login = () => {
 
           <div className={styles.inputContainer}>
             <div className={styles.left}>
-              <label htmlFor="contraseña">Contraseña</label>
+              <label htmlFor="password">Contraseña</label>
               <input
                 onChange={(e) => HandleChange(e)}
-                value={contraseña}
-                name="contraseña"
-                id="contraseña"
+                value={password}
+                name="password"
+                id="password"
                 type="password"
                 placeholder="Contraseña..."
                 autoComplete="off"
