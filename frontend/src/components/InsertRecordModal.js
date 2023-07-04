@@ -4,7 +4,7 @@ import { Button, FormGroup, Modal, ModalBody, ModalFooter, ModalHeader } from 'r
 const InsertRecordModal = ({ isOpen, form, cerrarModalInsertar, handleChange, insertar, data }) => (
   <Modal isOpen={isOpen}>
     <ModalHeader>
-      <div><h3>Insertar Personaje</h3></div>
+      <div><h3>Insertar columna1</h3></div>
     </ModalHeader>
 
     <ModalBody>
@@ -19,33 +19,44 @@ const InsertRecordModal = ({ isOpen, form, cerrarModalInsertar, handleChange, in
       </FormGroup>
 
       <FormGroup>
-        <label>Personaje:</label>
+        <label>columna1:</label>
         <input
           className="form-control"
-          name="personaje"
+          name="columna1"
           type="text"
           onChange={handleChange}
         />
       </FormGroup>
 
       <FormGroup>
-        <label>Anime:</label>
+        <label>columna2:</label>
         <input
           className="form-control"
-          name="anime"
+          name="columna2"
           type="text"
           onChange={handleChange}
         />
       </FormGroup>
 
       <FormGroup>
-        <label>Poder:</label>
+        <label>columna3:</label>
         <input
           className="form-control"
-          name="poder"
+          name="columna3"
           type="text"
           onChange={handleChange}
-          value={form.poder}
+          value={form.columna3}
+        />
+      </FormGroup>
+
+      <FormGroup>  {/* Nuevo FormGroup */}
+        <label>columna4:</label>
+        <input
+          className="form-control"
+          name="columna4"
+          type="text"
+          onChange={handleChange}
+          value={form.columna4}
         />
       </FormGroup>
     </ModalBody>

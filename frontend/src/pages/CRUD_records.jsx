@@ -6,8 +6,9 @@ import UpdateRecordModal from '../components/UpdateRecordModal';
 import InsertRecordModal from '../components/InsertRecordModal';
 
 const data = [
-  { id: 1, personaje: "Naruto", anime: "Naruto", poder: "Rasengan" },
-  { id: 2, personaje: "Goku", anime: "Dragon Ball", poder: "Kamehameha" },
+  { id: 1, columna1: "53", columna2: "Amarillo", columna3: "Antioquia", columna4: "false" },
+  { id: 2, columna1: "36", columna2: "Azul", columna3: "Cordoba", columna4: "true" },
+  { id: 2, columna1: "46", columna2: "Rojo", columna3: "Nariño", columna4: "false" }
 ];
 
 class CRUD_records extends React.Component {
@@ -17,9 +18,10 @@ class CRUD_records extends React.Component {
     modalInsertar: false,
     form: {
       id: "",
-      personaje: "",
-      anime: "",
-      poder: ""
+      columna1: "",
+      columna2: "",
+      columna3: "",
+      columna4: ""  // Nuevo campo
     },
   };
 
@@ -38,14 +40,14 @@ class CRUD_records extends React.Component {
     this.setState({
       form: {
         id: "",
-        personaje: "",
-        anime: "",
-        poder: ""
+        columna1: "",
+        columna2: "",
+        columna3: "",
+        columna4: ""  // Nuevo campo
       },
       modalInsertar: true,
     });
   };
-  
 
   cerrarModalInsertar = () => {
     this.setState({ modalInsertar: false });

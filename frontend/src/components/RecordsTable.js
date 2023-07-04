@@ -9,6 +9,7 @@ const RecordsTable = ({ data, mostrarModalActualizar, eliminar }) => (
         <th>Columna 1</th>
         <th>Columna 2</th>
         <th>Columna 3</th> 
+        <th>Columna 4</th> {/* Nueva Columna */}
         <th>Acción</th>
       </tr>
     </thead>
@@ -16,9 +17,10 @@ const RecordsTable = ({ data, mostrarModalActualizar, eliminar }) => (
       {data.map((dato) => (
         <tr key={dato.id}>
           <td>{dato.id}</td>
-          <td>{dato.personaje}</td>
-          <td>{dato.anime}</td>
-          <td>{dato.poder}</td> 
+          <td>{dato.columna1}</td>
+          <td>{dato.columna2}</td>
+          <td>{dato.columna3}</td>
+          <td>{dato.columna4}</td> {/* Nueva celda */}
           <td>
             <Button
               color="primary"
