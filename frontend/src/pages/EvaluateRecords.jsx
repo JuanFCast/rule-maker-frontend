@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './App.css'; // Asegúrate de tener el archivo CSS en la misma ruta
+import "../style/App.css"; // Asegúrate de tener el archivo CSS en la misma ruta
 
 const EvaluateRecords = () => {
   const [data, setData] = useState([
