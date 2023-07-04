@@ -26,8 +26,8 @@ class CRUD_records extends React.Component {
         baseUrl + "/table/get",
         {
           params: {
-            groupId: "MyGroup",
-            tableId: 1
+            tableid:{groupId: "MyGroup",
+            tableId: 1}
           },
           headers: {
             "MediaType": "application/json",
