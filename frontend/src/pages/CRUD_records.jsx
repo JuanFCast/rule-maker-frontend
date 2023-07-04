@@ -23,11 +23,11 @@ class CRUD_records extends React.Component {
   
     try {
       const response = await axios.get(
-        baseUrl + "/table/columns",
+        baseUrl + "/table/get",
         {
           params: {
-            groupId: "MyGroup",
-            tableId: 1
+            tableid:{groupId: "MyGroup",
+            tableId: 1}
           },
           headers: {
             "MediaType": "application/json",
