@@ -23,7 +23,7 @@ class CRUD_records extends React.Component {
   
     try {
       const response = await axios.get(
-        baseUrl + "/table/columns",
+        baseUrl + "/table/get",
         {
           params: {
             groupId: "MyGroup",
@@ -35,11 +35,13 @@ class CRUD_records extends React.Component {
           }
         }
       );
+
+      console.log(response.data.data);
   
-      if (response && response.data.length) {
+      if (response && response.data) {
         const form = {};
-        Object.keys(response.data[0]).forEach(key => form[key] = '');
-        this.setState({ response: response.data, form });
+        Object.keys(response.data.data).forEach(key => form[key] = '');
+        this.setState({ response: response.data.data, form });
       }
     } catch (error) {
       console.error(error);
