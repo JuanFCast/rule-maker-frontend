@@ -5,22 +5,18 @@ const TableRecords = ({ data, mostrarModalActualizar, eliminar }) => (
   <Table>
     <thead>
       <tr>
-        <th>ID</th>
-        <th>Columna 1</th>
-        <th>Columna 2</th>
-        <th>Columna 3</th> 
-        <th>Columna 4</th> {/* Nueva Columna */}
+        {data.length > 0 && Object.keys(data[0]).map((key, index) => (
+          <th key={index}>{key}</th>
+        ))}
         <th>Acción</th>
       </tr>
     </thead>
     <tbody>
-      {data.map((dato) => (
-        <tr key={dato.id}>
-          <td>{dato.id}</td>
-          <td>{dato.columna1}</td>
-          <td>{dato.columna2}</td>
-          <td>{dato.columna3}</td>
-          <td>{dato.columna4}</td> {/* Nueva celda */}
+      {data.map((dato, index) => (
+        <tr key={index}>
+          {Object.values(dato).map((value, i) => (
+            <td key={i}>{value}</td>
+          ))}
           <td>
             <Button
               color="primary"

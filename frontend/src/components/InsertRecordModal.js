@@ -17,48 +17,18 @@ const InsertRecordModal = ({ isOpen, form, cerrarModalInsertar, handleChange, in
           value={data.length+1}
         />
       </FormGroup>
-
-      <FormGroup>
-        <label>columna1:</label>
-        <input
-          className="form-control"
-          name="columna1"
-          type="text"
-          onChange={handleChange}
-        />
-      </FormGroup>
-
-      <FormGroup>
-        <label>columna2:</label>
-        <input
-          className="form-control"
-          name="columna2"
-          type="text"
-          onChange={handleChange}
-        />
-      </FormGroup>
-
-      <FormGroup>
-        <label>columna3:</label>
-        <input
-          className="form-control"
-          name="columna3"
-          type="text"
-          onChange={handleChange}
-          value={form.columna3}
-        />
-      </FormGroup>
-
-      <FormGroup>  {/* Nuevo FormGroup */}
-        <label>columna4:</label>
-        <input
-          className="form-control"
-          name="columna4"
-          type="text"
-          onChange={handleChange}
-          value={form.columna4}
-        />
-      </FormGroup>
+      {Object.entries(form).filter(([key]) => key !== 'id').map(([key, value], index) => (
+        <FormGroup key={index}>
+          <label>{key}:</label>
+          <input
+            className="form-control"
+            name={key}
+            type="text"
+            onChange={handleChange}
+            value={value}
+          />
+        </FormGroup>
+      ))}
     </ModalBody>
 
     <ModalFooter>

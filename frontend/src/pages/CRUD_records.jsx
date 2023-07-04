@@ -1,28 +1,37 @@
 import React from "react";
+import axios from 'axios';
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Button, Container } from "reactstrap";
 import TableRecords from '../components/TableRecords';
 import UpdateRecordModal from '../components/UpdateRecordModal';
 import InsertRecordModal from '../components/InsertRecordModal';
 
-const data = [
-  { id: 1, columna1: "53", columna2: "Amarillo", columna3: "Antioquia", columna4: "false" },
-  { id: 2, columna1: "36", columna2: "Azul", columna3: "Cordoba", columna4: "true" },
-  { id: 3, columna1: "46", columna2: "Rojo", columna3: "Nariño", columna4: "false" }
-];
-
 class CRUD_records extends React.Component {
   state = {
-    data,
+    data: [],
     modalActualizar: false,
     modalInsertar: false,
-    form: {
-      id: "",
-      columna1: "",
-      columna2: "",
-      columna3: "",
-      columna4: ""  // Nuevo campo
-    },
+    form: {}
+  };
+
+  componentDidMount() {
+    this.fetchData();
+  }
+
+  fetchData = async () => {
+    try {
+      const response = await axios.get('/ruta-api');
+      const data = response.data;
+
+      if (data && data.length) {
+        const form = {};
+        Object.keys(data[0]).forEach(key => form[key] = '');
+        this.setState({ data, form });
+      }
+    } catch(error) {
+      console.error("Hubo un error al cargar los datos: ", error);
+      // Añade aquí cualquier manejo de errores que consideres necesario
+    }
   };
 
   mostrarModalActualizar = (dato) => {
@@ -37,14 +46,9 @@ class CRUD_records extends React.Component {
   };
 
   mostrarModalInsertar = () => {
+    const form = this.state.data.length > 0 ? this.state.data[0] : {};
     this.setState({
-      form: {
-        id: "",
-        columna1: "",
-        columna2: "",
-        columna3: "",
-        columna4: ""  // Nuevo campo
-      },
+      form,
       modalInsertar: true,
     });
   };
@@ -53,20 +57,26 @@ class CRUD_records extends React.Component {
     this.setState({ modalInsertar: false });
   };
 
-  editar = (dato) => {
+  editar = async (dato) => {
+    // Aquí tendrías que hacer una solicitud PUT o PATCH a tu backend para actualizar el registro
+    // Por ahora, actualizamos solo el estado local
     const arreglo = this.state.data.map(item => item.id === dato.id ? dato : item);
     this.setState({ data: arreglo, modalActualizar: false });
   };
 
-  eliminar = (dato) => {
+  eliminar = async (dato) => {
     if (window.confirm("Estás Seguro que deseas Eliminar el elemento "+dato.id)) {
+      // Aquí tendrías que hacer una solicitud DELETE a tu backend para eliminar el registro
+      // Por ahora, eliminamos solo del estado local
       const arreglo = this.state.data.filter(item => item.id !== dato.id);
       this.setState({ data: arreglo, modalActualizar: false });
     }
   };
 
-  insertar = () => {
+  insertar = async () => {
     const valorNuevo = { ...this.state.form, id: this.state.data.length + 1 };
+    // Aquí tendrías que hacer una solicitud POST a tu backend para insertar el nuevo registro
+    // Por ahora, insertamos solo en el estado local
     const lista = [...this.state.data, valorNuevo];
     this.setState({ modalInsertar: false, data: lista });
   }
