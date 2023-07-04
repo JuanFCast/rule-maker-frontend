@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import logo from '../assets/logo.jpeg';
 
 import styles from "../style/styles.module.scss";
+const baseUrl = "http://localhost:8080";
 
 const Register = () => {
   const [inputs, setInputs] = useState({
@@ -18,7 +19,7 @@ const Register = () => {
 
   const navigate = useNavigate();
 
-  const { contraseña, correo, firstName, lastName, phoneNumber } = inputs;
+  const { password, email, firstName, lastName, phoneNumber } = inputs;
 
   const HandleChange = (e) => {
     setInputs({ ...inputs, [e.target.name]: e.target.value });
@@ -26,21 +27,31 @@ const Register = () => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    if (contraseña !== "" && correo !== "" && firstName !== "" && lastName !== "" && phoneNumber !== "") {
+    if (password !== "" && email !== "" && firstName !== "" && lastName !== "" && phoneNumber !== "") {
       const Usuario = {
-        correo,
-        contraseña,
         firstName,
         lastName,
-        phoneNumber
+        email,
+        phoneNumber,
+        password
       };
+
       setLoading(true);
       await axios
-        .post("http://localhost:4000/create", Usuario)
+        .post(
+          baseUrl + "/user/create",
+          Usuario,
+        {
+            headers: {
+                "Access-Control-Allow-Origin": baseUrl,
+                "Content-Type": "application/json"
+            },
+        }
+        )
         .then((res) => {
           const { data } = res;
           setMensaje(data.mensaje);
-          setInputs({ contraseña: "", correo: "", firstName: "", lastName: "", phoneNumber: "" });
+          setInputs({ password: "", email: "", firstName: "", lastName: "", phoneNumber: "" });
           setTimeout(() => {
             setMensaje("");
             navigate("/login");
@@ -103,9 +114,9 @@ const Register = () => {
               <label htmlFor="correo">Correo</label>
               <input
                 onChange={(e) => HandleChange(e)}
-                value={correo}
-                name="correo"
-                id="correo"
+                value={email}
+                name="email"
+                id="email"
                 type="email"
                 placeholder="Correo..."
                 autoComplete="off"
@@ -118,9 +129,9 @@ const Register = () => {
               <label htmlFor="contraseña">Contraseña</label>
               <input
                 onChange={(e) => HandleChange(e)}
-                value={contraseña}
-                name="contraseña"
-                id="contraseña"
+                value={password}
+                name="password"
+                id="password"
                 type="password"
                 placeholder="Contraseña..."
                 autoComplete="off"
