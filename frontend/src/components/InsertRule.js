@@ -22,9 +22,9 @@ const InsertRule = ({ isOpen, form, cerrarModalInsertar, handleChange, insertar,
         <label>Rules:</label>
         <input
           className="form-control"
-          readOnly
+          name="Rules"
           type="text"
-          value={data.length+1}
+          onChange={handleChange}
         />
       </FormGroup>
 

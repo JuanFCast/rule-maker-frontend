@@ -47,19 +47,19 @@ class CRUD_rules extends React.Component {
   };
 
   editar = (dato) => {
-    const arreglo = this.state.data.map(item => item.Rules === dato.Rules ? dato : item);
+    const arreglo = this.state.data.map(item => item.id === dato.id ? dato : item);
     this.setState({ data: arreglo, modalActualizar: false });
   };
 
   eliminar = (dato) => {
-    if (window.confirm("Estás Seguro que deseas Eliminar el elemento "+dato.Rules)) {
-      const arreglo = this.state.data.filter(item => item.Rules !== dato.Rules);
+    if (window.confirm("Estás Seguro que deseas Eliminar el elemento "+dato.id)) {
+      const arreglo = this.state.data.filter(item => item.id !== dato.id);
       this.setState({ data: arreglo, modalActualizar: false });
     }
   };
 
   insertar = () => {
-    const valorNuevo = { ...this.state.form, Rules: this.state.data.length + 1 };
+    const valorNuevo = { ...this.state.form, id: this.state.data.length + 1 };
     const lista = [...this.state.data, valorNuevo];
     this.setState({ modalInsertar: false, data: lista });
   }

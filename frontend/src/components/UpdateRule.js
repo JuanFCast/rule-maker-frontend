@@ -25,7 +25,7 @@ const UpdateRule = ({ isOpen, form, cerrarModalActualizar, handleChange, editar 
           name="columna1"
           type="text"
           onChange={handleChange}
-          value={form.columna1}
+          value={form.Rules}
         />
       </FormGroup>
 
