@@ -1,14 +1,14 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Button, Container } from "reactstrap";
-import RecordsTable from '../components/RecordsTable';
+import TableRecords from '../components/TableRecords';
 import UpdateRecordModal from '../components/UpdateRecordModal';
 import InsertRecordModal from '../components/InsertRecordModal';
 
 const data = [
   { id: 1, columna1: "53", columna2: "Amarillo", columna3: "Antioquia", columna4: "false" },
   { id: 2, columna1: "36", columna2: "Azul", columna3: "Cordoba", columna4: "true" },
-  { id: 2, columna1: "46", columna2: "Rojo", columna3: "Nariño", columna4: "false" }
+  { id: 3, columna1: "46", columna2: "Rojo", columna3: "Nariño", columna4: "false" }
 ];
 
 class CRUD_records extends React.Component {
@@ -90,7 +90,7 @@ class CRUD_records extends React.Component {
           <Button color="success" onClick={this.mostrarModalInsertar}>Insertar nuevo registro</Button>
           <br />
           <br />
-          <RecordsTable data={data} mostrarModalActualizar={this.mostrarModalActualizar} eliminar={this.eliminar} />
+          <TableRecords data={data} mostrarModalActualizar={this.mostrarModalActualizar} eliminar={this.eliminar} />
         </Container>
 
         <UpdateRecordModal isOpen={modalActualizar} form={form} cerrarModalActualizar={this.cerrarModalActualizar} handleChange={this.handleChange} editar={this.editar} />

@@ -1,23 +1,27 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Button, Container } from "reactstrap";
-import TableRule from '../components/TableRule';
-import UpdateRule from '../components/UpdateRule';
-import InsertRule from '../components/InsertRule';
+import RecordsTable from '../components/TableRecords';
+import UpdateRecordModal from '../components/UpdateRecordModal';
+import InsertRecordModal from '../components/InsertRecordModal';
 
 const data = [
-  { id: 1, Rules: "Columna 1 ES MAYOR QUE 18 Y Columna 3 ES IGUAL A Antioquia" },
-  { id: 2, Rules: "(Columna 2 ES IGUAL A Rojo Y Columna 2 ES DIFERENTE A Columna 3) Ó Columna 4 ES verdadera" }
+  { id: 1, columna1: "53", columna2: "Amarillo", columna3: "Antioquia", columna4: "false" },
+  { id: 2, columna1: "36", columna2: "Azul", columna3: "Cordoba", columna4: "true" },
+  { id: 2, columna1: "46", columna2: "Rojo", columna3: "Nariño", columna4: "false" }
 ];
 
-class CRUD_rules extends React.Component {
+class CRUD_columns extends React.Component {
   state = {
     data,
     modalActualizar: false,
     modalInsertar: false,
     form: {
       id: "",
-      Rules: ""
+      columna1: "",
+      columna2: "",
+      columna3: "",
+      columna4: ""  // Nuevo campo
     },
   };
 
@@ -36,7 +40,10 @@ class CRUD_rules extends React.Component {
     this.setState({
       form: {
         id: "",
-        Rules: ""
+        columna1: "",
+        columna2: "",
+        columna3: "",
+        columna4: ""  // Nuevo campo
       },
       modalInsertar: true,
     });
@@ -80,17 +87,17 @@ class CRUD_rules extends React.Component {
       <>
         <Container>
         <br />
-          <Button color="success" onClick={this.mostrarModalInsertar}>Insertar nueva regla</Button>
+          <Button color="success" onClick={this.mostrarModalInsertar}>Insertar nuevo registro</Button>
           <br />
           <br />
-          <TableRule data={data} mostrarModalActualizar={this.mostrarModalActualizar} eliminar={this.eliminar} />
+          <RecordsTable data={data} mostrarModalActualizar={this.mostrarModalActualizar} eliminar={this.eliminar} />
         </Container>
 
-        <UpdateRule isOpen={modalActualizar} form={form} cerrarModalActualizar={this.cerrarModalActualizar} handleChange={this.handleChange} editar={this.editar} />
-        <InsertRule isOpen={modalInsertar} form={form} cerrarModalInsertar={this.cerrarModalInsertar} handleChange={this.handleChange} insertar={this.insertar} data={data} />
+        <UpdateRecordModal isOpen={modalActualizar} form={form} cerrarModalActualizar={this.cerrarModalActualizar} handleChange={this.handleChange} editar={this.editar} />
+        <InsertRecordModal isOpen={modalInsertar} form={form} cerrarModalInsertar={this.cerrarModalInsertar} handleChange={this.handleChange} insertar={this.insertar} data={data} />
       </>
     );
   }
 }
 
-export default CRUD_rules;
+export default CRUD_columns;
