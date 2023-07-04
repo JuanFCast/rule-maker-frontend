@@ -1,10 +1,10 @@
 import React from 'react';
 import { Button, FormGroup, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 
-const InsertRule = ({ isOpen, form, cerrarModalInsertar, handleChange, insertar, data }) => (
+const UpdateRule = ({ isOpen, form, cerrarModalActualizar, handleChange, editar }) => (
   <Modal isOpen={isOpen}>
     <ModalHeader>
-      <div><h3>Insertar nueva columna</h3></div>
+      <div><h3>Editar grupo</h3></div>
     </ModalHeader>
 
     <ModalBody>
@@ -14,17 +14,18 @@ const InsertRule = ({ isOpen, form, cerrarModalInsertar, handleChange, insertar,
           className="form-control"
           readOnly
           type="text"
-          value={data.length+1}
+          value={form.id}
         />
       </FormGroup>
 
       <FormGroup>
-        <label>columna1:</label>
+        <label>grupos:</label>
         <input
           className="form-control"
-          name="columna1"
+          name="grupos"
           type="text"
           onChange={handleChange}
+          value={form.grupos}
         />
       </FormGroup>
 
@@ -33,13 +34,13 @@ const InsertRule = ({ isOpen, form, cerrarModalInsertar, handleChange, insertar,
     <ModalFooter>
       <Button
         color="primary"
-        onClick={insertar}
+        onClick={() => editar(form)}
       >
-        Insertar
+        Editar
       </Button>
       <Button
-        className="btn btn-danger"
-        onClick={cerrarModalInsertar}
+        color="danger"
+        onClick={cerrarModalActualizar}
       >
         Cancelar
       </Button>
@@ -47,4 +48,4 @@ const InsertRule = ({ isOpen, form, cerrarModalInsertar, handleChange, insertar,
   </Modal>
 );
 
-export default InsertRule;
+export default UpdateRule;

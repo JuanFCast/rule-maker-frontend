@@ -4,7 +4,7 @@ import { Button, FormGroup, Modal, ModalBody, ModalFooter, ModalHeader } from 'r
 const InsertRule = ({ isOpen, form, cerrarModalInsertar, handleChange, insertar, data }) => (
   <Modal isOpen={isOpen}>
     <ModalHeader>
-      <div><h3>Insertar nueva columna</h3></div>
+      <div><h3>Insertar nuevo grupo</h3></div>
     </ModalHeader>
 
     <ModalBody>
@@ -19,10 +19,10 @@ const InsertRule = ({ isOpen, form, cerrarModalInsertar, handleChange, insertar,
       </FormGroup>
 
       <FormGroup>
-        <label>columna1:</label>
+        <label>grupos:</label>
         <input
           className="form-control"
-          name="columna1"
+          name="grupos"
           type="text"
           onChange={handleChange}
         />

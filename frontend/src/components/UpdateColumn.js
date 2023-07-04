@@ -4,7 +4,7 @@ import { Button, FormGroup, Modal, ModalBody, ModalFooter, ModalHeader } from 'r
 const UpdateRule = ({ isOpen, form, cerrarModalActualizar, handleChange, editar }) => (
   <Modal isOpen={isOpen}>
     <ModalHeader>
-      <div><h3>Editar Regla</h3></div>
+      <div><h3>Editar columna</h3></div>
     </ModalHeader>
 
     <ModalBody>
