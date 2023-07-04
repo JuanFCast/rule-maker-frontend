@@ -1,14 +1,13 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Button, Container } from "reactstrap";
-import RecordsTable from '../components/TableRecords';
-import UpdateRecordModal from '../components/UpdateRecordModal';
-import InsertRecordModal from '../components/InsertRecordModal';
+import TableColumn from '../components/TableColumn';
+import UpdateRecordModal from '../components/UpdateColumn';
+import InsertRecordModal from '../components/InsertColumn';
 
 const data = [
-  { id: 1, columna1: "53", columna2: "Amarillo", columna3: "Antioquia", columna4: "false" },
-  { id: 2, columna1: "36", columna2: "Azul", columna3: "Cordoba", columna4: "true" },
-  { id: 2, columna1: "46", columna2: "Rojo", columna3: "Nariño", columna4: "false" }
+  { id: 1, columna1: "ID" },
+  { id: 2, columna1: "Columna 1" }
 ];
 
 class CRUD_columns extends React.Component {
@@ -18,10 +17,7 @@ class CRUD_columns extends React.Component {
     modalInsertar: false,
     form: {
       id: "",
-      columna1: "",
-      columna2: "",
-      columna3: "",
-      columna4: ""  // Nuevo campo
+      columna1: ""
     },
   };
 
@@ -40,10 +36,7 @@ class CRUD_columns extends React.Component {
     this.setState({
       form: {
         id: "",
-        columna1: "",
-        columna2: "",
-        columna3: "",
-        columna4: ""  // Nuevo campo
+        columna1: ""
       },
       modalInsertar: true,
     });
@@ -87,10 +80,10 @@ class CRUD_columns extends React.Component {
       <>
         <Container>
         <br />
-          <Button color="success" onClick={this.mostrarModalInsertar}>Insertar nuevo registro</Button>
+          <Button color="success" onClick={this.mostrarModalInsertar}>Insertar nueva columna</Button>
           <br />
           <br />
-          <RecordsTable data={data} mostrarModalActualizar={this.mostrarModalActualizar} eliminar={this.eliminar} />
+          <TableColumn data={data} mostrarModalActualizar={this.mostrarModalActualizar} eliminar={this.eliminar} />
         </Container>
 
         <UpdateRecordModal isOpen={modalActualizar} form={form} cerrarModalActualizar={this.cerrarModalActualizar} handleChange={this.handleChange} editar={this.editar} />
