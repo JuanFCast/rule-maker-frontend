@@ -1,13 +1,13 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Button, Container } from "reactstrap";
-import TableGroup from '../components/TableGroup';
-import UpdateGroup from '../components/UpdateGroup';
-import InsertGroup from '../components/InsertGroup';
+import TableUser from '../components/TableUser';
+import UpdateUser from '../components/UpdateUser';
+import InsertUser from '../components/InsertUser';
 
 const data = [
-  { id: 1, grupos: "MyGroup" },
-  { id: 2, grupos: "MyGroup 2" }
+  { id: 1, idGroup: 1, user: "Juan" },
+  { id: 2, idGroup: 1, user: "Maria" }
 ];
 
 class CRUD_columns extends React.Component {
@@ -17,7 +17,8 @@ class CRUD_columns extends React.Component {
     modalInsertar: false,
     form: {
       id: "",
-      grupos: ""
+      idGroup: "",
+      user: ""
     },
   };
 
@@ -36,7 +37,8 @@ class CRUD_columns extends React.Component {
     this.setState({
       form: {
         id: "",
-        grupos: ""
+        idGroup: "",
+        user: ""
       },
       modalInsertar: true,
     });
@@ -80,14 +82,14 @@ class CRUD_columns extends React.Component {
       <>
         <Container>
         <br />
-          <Button color="success" onClick={this.mostrarModalInsertar}>Insertar nuevo grupo</Button>
+          <Button color="success" onClick={this.mostrarModalInsertar}>Insertar nuevo usuario</Button>
           <br />
           <br />
-          <TableGroup data={data} mostrarModalActualizar={this.mostrarModalActualizar} eliminar={this.eliminar} />
+          <TableUser data={data} mostrarModalActualizar={this.mostrarModalActualizar} eliminar={this.eliminar} />
         </Container>
 
-        <UpdateGroup isOpen={modalActualizar} form={form} cerrarModalActualizar={this.cerrarModalActualizar} handleChange={this.handleChange} editar={this.editar} />
-        <InsertGroup isOpen={modalInsertar} form={form} cerrarModalInsertar={this.cerrarModalInsertar} handleChange={this.handleChange} insertar={this.insertar} data={data} />
+        <UpdateUser isOpen={modalActualizar} form={form} cerrarModalActualizar={this.cerrarModalActualizar} handleChange={this.handleChange} editar={this.editar} />
+        <InsertUser isOpen={modalInsertar} form={form} cerrarModalInsertar={this.cerrarModalInsertar} handleChange={this.handleChange} insertar={this.insertar} data={data} />
       </>
     );
   }
