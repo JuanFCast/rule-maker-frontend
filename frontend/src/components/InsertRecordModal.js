@@ -4,7 +4,7 @@ import { Button, FormGroup, Modal, ModalBody, ModalFooter, ModalHeader } from 'r
 const InsertRecordModal = ({ isOpen, form, cerrarModalInsertar, handleChange, insertar, data }) => (
   <Modal isOpen={isOpen}>
     <ModalHeader>
-      <div><h3>Insertar columna1</h3></div>
+      <div><h3>Insertar nuevo registro</h3></div>
     </ModalHeader>
 
     <ModalBody>
