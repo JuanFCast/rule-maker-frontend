@@ -8,6 +8,7 @@ import CRUD_columns from "./pages/CRUD_columns";
 import CRUD_groups from "./pages/CRUD_groups";
 import CRUD_users from "./pages/CRUD_users";
 import CRUD_roles from "./pages/CRUD_roles";
+import EvaluateRecords from "./pages/EvaluateRecords";
 
 import styles from './App.module.scss'
 
@@ -24,6 +25,8 @@ const App = () => {
           <Route path="/CRUD_groups" element={<CRUD_groups />} />
           <Route path="/CRUD_users" element={<CRUD_users />} />
           <Route path="/CRUD_roles" element={<CRUD_roles />} />
+          <Route path="/EvaluateRecords" element={<EvaluateRecords />} />
+
         </Routes>
       </div>
     </BrowserRouter>
