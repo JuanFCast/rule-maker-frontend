@@ -1,10 +1,10 @@
 import React from 'react';
 import { Button, FormGroup, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 
-const InsertColumn = ({ isOpen, form, cerrarModalInsertar, handleChange, insertar, data }) => (
+const InsertRole = ({ isOpen, form, cerrarModalInsertar, handleChange, insertar, data }) => (
   <Modal isOpen={isOpen}>
     <ModalHeader>
-      <div><h3>Insertar nueva columna</h3></div>
+      <div><h3>Asignar un nuevo rol</h3></div>
     </ModalHeader>
 
     <ModalBody>
@@ -19,10 +19,20 @@ const InsertColumn = ({ isOpen, form, cerrarModalInsertar, handleChange, inserta
       </FormGroup>
 
       <FormGroup>
-        <label>columna1:</label>
+        <label>Usuario:</label>
         <input
           className="form-control"
-          name="columna1"
+          name="user"
+          type="text"
+          onChange={handleChange}
+        />
+      </FormGroup>
+
+      <FormGroup>
+        <label>Rol:</label>
+        <input
+          className="form-control"
+          name="role"
           type="text"
           onChange={handleChange}
         />
@@ -47,4 +57,4 @@ const InsertColumn = ({ isOpen, form, cerrarModalInsertar, handleChange, inserta
   </Modal>
 );
 
-export default InsertColumn;
+export default InsertRole;

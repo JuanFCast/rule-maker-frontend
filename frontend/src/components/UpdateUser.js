@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, FormGroup, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 
-const UpdateRule = ({ isOpen, form, cerrarModalActualizar, handleChange, editar }) => (
+const UpdateUser = ({ isOpen, form, cerrarModalActualizar, handleChange, editar }) => (
   <Modal isOpen={isOpen}>
     <ModalHeader>
       <div><h3>Editar grupo</h3></div>
@@ -59,4 +59,4 @@ const UpdateRule = ({ isOpen, form, cerrarModalActualizar, handleChange, editar 
   </Modal>
 );
 
-export default UpdateRule;
+export default UpdateUser;
