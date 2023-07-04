@@ -19,18 +19,30 @@ class CRUD_records extends React.Component {
   }
 
   fetchData = async () => {
+    const baseUrl = "http://localhost:8080";
+  
     try {
-      const response = await axios.get('/ruta-api');
-      const data = response.data;
-
-      if (data && data.length) {
+      const response = await axios.get(
+        baseUrl + "/table/columns",
+        {
+          params: {
+            groupId: "MyGroup",
+            tableId: 1
+          },
+          headers: {
+            "MediaType": "application/json",
+            "Authorization": "Bearer " + localStorage.getItem('jwt')
+          }
+        }
+      );
+  
+      if (response && response.data.length) {
         const form = {};
-        Object.keys(data[0]).forEach(key => form[key] = '');
-        this.setState({ data, form });
+        Object.keys(response.data[0]).forEach(key => form[key] = '');
+        this.setState({ response: response.data, form });
       }
-    } catch(error) {
-      console.error("Hubo un error al cargar los datos: ", error);
-      // Añade aquí cualquier manejo de errores que consideres necesario
+    } catch (error) {
+      console.error(error);
     }
   };
 
@@ -65,7 +77,7 @@ class CRUD_records extends React.Component {
   };
 
   eliminar = async (dato) => {
-    if (window.confirm("Estás Seguro que deseas Eliminar el elemento "+dato.id)) {
+    if (window.confirm("Estás Seguro que deseas Eliminar el elemento " + dato.id)) {
       // Aquí tendrías que hacer una solicitud DELETE a tu backend para eliminar el registro
       // Por ahora, eliminamos solo del estado local
       const arreglo = this.state.data.filter(item => item.id !== dato.id);
@@ -96,7 +108,7 @@ class CRUD_records extends React.Component {
     return (
       <>
         <Container>
-        <br />
+          <br />
           <Button color="success" onClick={this.mostrarModalInsertar}>Insertar nuevo registro</Button>
           <br />
           <br />
