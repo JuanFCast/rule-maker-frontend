@@ -1,20 +1,23 @@
-import React, { useState } from 'react';
-import "../style/App.css"; // Asegúrate de tener el archivo CSS en la misma ruta
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 const EvaluateRecords = () => {
-  const [data, setData] = useState([
-    {ID: '6df48a', Columna1: 53, Columna2: 'Amarillo', Columna3: 'Antioquia', Columna4: false},
-    {ID: 'asd687', Columna1: 36, Columna2: 'Azul', Columna3: 'Cordoba', Columna4: true},
-    {ID: '13sad8', Columna1: 46, Columna2: 'Rojo', Columna3: 'Nariño', Columna4: false}
-  ]);
-
-  const [rules, setRules] = useState([
-    "Columna 1 ES MAYOR QUE 18 Y Columna 3 ES IGUAL A Antioquia"
-  ]);
-
+  const [data, setData] = useState([]);
+  const [rules, setRules] = useState([]);
   const [selectedData, setSelectedData] = useState(null);
   const [selectedRuleIndex, setSelectedRuleIndex] = useState(null);
   const [result, setResult] = useState(null);
+
+  useEffect(() => {
+    // Se tiene que reemplazar con los endpoints de backend
+    axios.get('http://localhost:8080/getRecords').then((response) => {
+      setData(response.data);
+    });
+
+    axios.get('http://localhost:8080/getRules').then((response) => {
+      setRules(response.data);
+    });
+  }, []);
 
   const handleDataSelection = (data) => {
     setSelectedData(data);
@@ -25,9 +28,9 @@ const EvaluateRecords = () => {
   }
 
   const applyRule = () => {
-    // Aquí debes implementar la lógica para evaluar la regla seleccionada contra los datos seleccionados
-    // Por simplicidad, asumiremos que siempre retorna "Verdadero".
-    const result = "Verdadero";
+    // Aquí es donde se necesita implementar la lógica para evaluar la regla seleccionada en los datos seleccionados
+    // La implementación exacta depende de cómo estén estructuradas las reglas y de qué tipo de lógica quieran permitir
+    const result = "Verdadero"; // Este es un valor de demostración
     setResult(`Al evaluar el registro ${selectedData.ID} contra la regla ${selectedRuleIndex + 1}, el resultado es ${result}.`);
   }
 
@@ -39,24 +42,17 @@ const EvaluateRecords = () => {
       <table>
         <thead>
           <tr>
-            <th>ID</th>
-            <th>Columna 1</th>
-            <th>Columna 2</th>
-            <th>Columna 3</th>
-            <th>Columna 4</th>
+            {data.length > 0 && Object.keys(data[0]).map((key, index) => (
+              <th key={index}>{key}</th>
+            ))}
           </tr>
         </thead>
         <tbody>
           {data.map((row, index) => (
-            <tr key={index} 
-                className={selectedData === row ? 'selected' : ''}
-                onClick={() => handleDataSelection(row)}
-            >
-              <td>{row.ID}</td>
-              <td>{row.Columna1}</td>
-              <td>{row.Columna2}</td>
-              <td>{row.Columna3}</td>
-              <td>{row.Columna4.toString()}</td>
+            <tr key={index} onClick={() => handleDataSelection(row)}>
+              {Object.values(row).map((value, index) => (
+                <td key={index}>{value}</td>
+              ))}
             </tr>
           ))}
         </tbody>
@@ -65,12 +61,7 @@ const EvaluateRecords = () => {
       <h2>Selecciona una regla</h2>
       <ul>
         {rules.map((rule, index) => (
-          <li key={index} 
-              className={selectedRuleIndex === index ? 'selected' : ''} 
-              onClick={() => handleRuleSelection(index)}
-          >
-            {rule}
-          </li>
+          <li key={index} onClick={() => handleRuleSelection(index)}>{rule.name}</li>
         ))}
       </ul>
 
