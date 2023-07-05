@@ -6,24 +6,25 @@ import TableRule from '../components/TableRule';
 import UpdateRule from '../components/UpdateRule';
 import InsertRule from '../components/InsertRule';
 
-const data = [
-  { id: 1, Rules: "Columna 1 ES MAYOR QUE 18 Y Columna 3 ES IGUAL A Antioquia" },
-  { id: 2, Rules: "(Columna 2 ES IGUAL A Rojo Y Columna 2 ES DIFERENTE A Columna 3) Ó Columna 4 ES verdadera" }
-];
-
 class CRUD_rules extends React.Component {
   state = {
-    data,
+    data: [],
     modalActualizar: false,
     modalInsertar: false,
     form: {
       id: "",
+      Name: "",
       Rules: ""
     },
   };
 
+  async componentDidMount() {
+    const rules = await this.getRules();
+    this.setState({ data: rules });
+  }
+
   mostrarModalActualizar = (dato) => {
-    getRules();
+    this.getRules();
     this.setState({
       form: dato,
       modalActualizar: true,
@@ -38,6 +39,7 @@ class CRUD_rules extends React.Component {
     this.setState({
       form: {
         id: "",
+        Name: "",
         Rules: ""
       },
       modalInsertar: true,
@@ -93,12 +95,11 @@ class CRUD_rules extends React.Component {
       </>
     );
   }
-}
 
-async function getRules(){
-  const baseUrl = "http://localhost:8080";
-  let response = "";
-  
+  async getRules() {
+    const baseUrl = "http://localhost:8080";
+    let response = "";
+    
     try {
       response = await axios.get(
         baseUrl + "/rule/getAll",
@@ -112,8 +113,17 @@ async function getRules(){
       console.log(response.data);
     } catch (error) {
       console.error(error);
+      return [];
     }
-  return response.data;
+
+    return response.data.map(rule => {
+      return {
+        id: rule.id,
+        Name: rule.name,
+        Rules: rule.rule
+      };
+    });
+  }
 }
 
 export default CRUD_rules;

@@ -6,6 +6,7 @@ const TableRule = ({ data, mostrarModalActualizar, eliminar }) => (
     <thead>
       <tr>
         <th>id</th>
+        <th>Nombres</th>
         <th>Reglas</th>
         <th>Acción</th>
       </tr>
@@ -14,6 +15,7 @@ const TableRule = ({ data, mostrarModalActualizar, eliminar }) => (
       {data.map((dato) => (
         <tr key={dato.id}>
           <td>{dato.id}</td>
+          <td>{dato.Name}</td>
           <td>{dato.Rules}</td>
           <td>
             <Button

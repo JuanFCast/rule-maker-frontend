@@ -19,10 +19,21 @@ const UpdateRule = ({ isOpen, form, cerrarModalActualizar, handleChange, editar 
       </FormGroup>
 
       <FormGroup>
-        <label>Rules:</label>
+        <label>Nombre:</label>
         <input
           className="form-control"
-          name="columna1"
+          name="Name"
+          type="text"
+          onChange={handleChange}
+          value={form.Name}
+        />
+      </FormGroup>
+
+      <FormGroup>
+        <label>Regla:</label>
+        <input
+          className="form-control"
+          name="Rules"
           type="text"
           onChange={handleChange}
           value={form.Rules}

@@ -19,7 +19,17 @@ const InsertRule = ({ isOpen, form, cerrarModalInsertar, handleChange, insertar,
       </FormGroup>
 
       <FormGroup>
-        <label>Rules:</label>
+        <label>Nombre:</label>
+        <input
+          className="form-control"
+          name="Name"
+          type="text"
+          onChange={handleChange}
+        />
+      </FormGroup>
+
+      <FormGroup>
+        <label>Regla:</label>
         <input
           className="form-control"
           name="Rules"
