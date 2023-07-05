@@ -1,4 +1,5 @@
 import React from "react";
+import axios from 'axios';
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Button, Container } from "reactstrap";
 import TableRule from '../components/TableRule';
@@ -22,6 +23,7 @@ class CRUD_rules extends React.Component {
   };
 
   mostrarModalActualizar = (dato) => {
+    getRules();
     this.setState({
       form: dato,
       modalActualizar: true,
@@ -85,12 +87,33 @@ class CRUD_rules extends React.Component {
           <br />
           <TableRule data={data} mostrarModalActualizar={this.mostrarModalActualizar} eliminar={this.eliminar} />
         </Container>
-
+        
         <UpdateRule isOpen={modalActualizar} form={form} cerrarModalActualizar={this.cerrarModalActualizar} handleChange={this.handleChange} editar={this.editar} />
         <InsertRule isOpen={modalInsertar} form={form} cerrarModalInsertar={this.cerrarModalInsertar} handleChange={this.handleChange} insertar={this.insertar} data={data} />
       </>
     );
   }
+}
+
+async function getRules(){
+  const baseUrl = "http://localhost:8080";
+  let response = "";
+  
+    try {
+      response = await axios.get(
+        baseUrl + "/rule/getAll",
+        {
+          headers: {
+            "MediaType": "application/json",
+            "Authorization": "Bearer " + localStorage.getItem('jwt')
+          }
+        }
+      );
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  return response.data;
 }
 
 export default CRUD_rules;
