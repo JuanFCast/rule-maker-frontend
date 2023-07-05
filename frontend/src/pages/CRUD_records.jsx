@@ -12,7 +12,8 @@ class CRUD_records extends React.Component {
     modalActualizar: false,
     modalInsertar: false,
     form: {},
-    prev:{}
+    prev:{},
+    columnKey:"name",
   };
 
   componentDidMount() {
@@ -84,7 +85,7 @@ class CRUD_records extends React.Component {
     // Aquí tendrías que hacer una solicitud PUT o PATCH a tu backend para actualizar el registro
     // Por ahora, actualizamos solo el estado local
     const baseUrl = "http://localhost:8080/table/update";
-    const column="name";
+    const column=this.state.columnKey;
     console.log(prev)
     axios.put(baseUrl, {
       groupId: "MyGroup",
@@ -103,11 +104,27 @@ class CRUD_records extends React.Component {
   };
 
   eliminar = async (dato) => {
-    if (window.confirm("Estás Seguro que deseas Eliminar el elemento " + dato.id)) {
+    if (window.confirm("Estás Seguro que deseas Eliminar el elemento " + dato[this.state.columnKey])) {
       // Aquí tendrías que hacer una solicitud DELETE a tu backend para eliminar el registro
       // Por ahora, eliminamos solo del estado local
-      const arreglo = this.state.data.filter(item => item.id !== dato.id);
-      this.setState({ data: arreglo, modalActualizar: false });
+      const baseUrl = "http://localhost:8080/table/delete";
+      const column=this.state.columnKey;
+      axios.delete(baseUrl,
+        {
+          data:{
+          groupId: "MyGroup",
+          tableId: 1,
+          toUpdate:dato,
+          key: column,
+          value: dato[column]
+          },
+          headers: {
+            "Access-Control-Allow-Origin": baseUrl,
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + localStorage.getItem('jwt')
+          }
+      })
+      window.location.reload();
     }
   };
 
@@ -116,7 +133,27 @@ class CRUD_records extends React.Component {
     // Aquí tendrías que hacer una solicitud POST a tu backend para insertar el nuevo registro
     // Por ahora, insertamos solo en el estado local
     const lista = [...this.state.data, valorNuevo];
+    const dato=this.state.form
     this.setState({ modalInsertar: false, data: lista });
+    const baseUrl = "http://localhost:8080/table/create";
+      const column=this.state.columnKey;
+      
+      axios.post(baseUrl,
+        {
+          groupId: "MyGroup",
+          tableId: 1,
+          toUpdate:dato,
+          key: column,
+          value: dato[column]
+        },
+        {
+          headers: {
+            "Access-Control-Allow-Origin": baseUrl,
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + localStorage.getItem('jwt')
+          }
+      })
+      window.location.reload();
   }
 
   handleChange = (e) => {
