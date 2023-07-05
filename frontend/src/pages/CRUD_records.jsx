@@ -26,27 +26,29 @@ class CRUD_records extends React.Component {
         baseUrl + "/table/get",
         {
           params: {
-            tableid:{groupId: "MyGroup",
-            tableId: 1}
+            groupId: "MyGroup",
+            tableId: 1
           },
           headers: {
+            "Access-Control-Allow-Origin": baseUrl,
             "MediaType": "application/json",
             "Authorization": "Bearer " + localStorage.getItem('jwt')
           }
         }
       );
-
+  
       console.log(response.data.data);
   
-      if (response && response.data) {
+      if (response.data.data && response.data.data.length > 0) {
         const form = {};
-        Object.keys(response.data.data).forEach(key => form[key] = '');
-        this.setState({ response: response.data.data, form });
+        Object.keys(response.data.data[0]).forEach(key => form[key] = '');
+        this.setState({ data: response.data.data, form });
       }
     } catch (error) {
       console.error(error);
     }
   };
+  
 
   mostrarModalActualizar = (dato) => {
     this.setState({

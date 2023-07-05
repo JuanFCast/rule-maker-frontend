@@ -155,7 +155,10 @@ const Register = () => {
           </div>
 
           <button type="submit">Crear cuenta</button>
-          <p>{mensaje}</p>
+          <p>
+            ¿Ya tienes una cuenta?{" "}
+            <b onClick={() => navigate("/login")}>Inicia Sesión!</b>
+          </p>
         </form>
       </div>
     </>
