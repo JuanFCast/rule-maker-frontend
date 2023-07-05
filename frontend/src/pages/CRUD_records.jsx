@@ -37,6 +37,9 @@ class CRUD_records extends React.Component {
         }
       );
   
+      // Aquí está tu nueva línea de código
+      response.data.data.forEach(objeto => { delete objeto._class; });
+  
       console.log(response.data.data);
   
       if (response.data.data && response.data.data.length > 0) {
@@ -48,6 +51,7 @@ class CRUD_records extends React.Component {
       console.error(error);
     }
   };
+  
   
 
   mostrarModalActualizar = (dato) => {
