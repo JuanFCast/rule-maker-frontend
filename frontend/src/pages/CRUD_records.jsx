@@ -11,7 +11,8 @@ class CRUD_records extends React.Component {
     data: [],
     modalActualizar: false,
     modalInsertar: false,
-    form: {}
+    form: {},
+    prev:{}
   };
 
   componentDidMount() {
@@ -57,6 +58,7 @@ class CRUD_records extends React.Component {
   mostrarModalActualizar = (dato) => {
     this.setState({
       form: dato,
+      prev:dato,
       modalActualizar: true,
     });
   };
@@ -66,6 +68,7 @@ class CRUD_records extends React.Component {
   };
 
   mostrarModalInsertar = () => {
+    console.log(this.state.data[0])
     const form = this.state.data.length > 0 ? this.state.data[0] : {};
     this.setState({
       form,
@@ -77,11 +80,26 @@ class CRUD_records extends React.Component {
     this.setState({ modalInsertar: false });
   };
 
-  editar = async (dato) => {
+  editar = async (prev,dato) => {
     // Aquí tendrías que hacer una solicitud PUT o PATCH a tu backend para actualizar el registro
     // Por ahora, actualizamos solo el estado local
-    const arreglo = this.state.data.map(item => item.id === dato.id ? dato : item);
-    this.setState({ data: arreglo, modalActualizar: false });
+    const baseUrl = "http://localhost:8080/table/update";
+    const column="name";
+    console.log(prev)
+    axios.put(baseUrl, {
+      groupId: "MyGroup",
+      tableId: 1,
+      toUpdate:dato,
+      key: column,
+      value: prev[column]
+    }, {
+      headers: {
+        "Access-Control-Allow-Origin": baseUrl,
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + localStorage.getItem('jwt')
+      }
+    })
+    window.location.reload();
   };
 
   eliminar = async (dato) => {
@@ -111,7 +129,7 @@ class CRUD_records extends React.Component {
   };
 
   render() {
-    const { data, form, modalActualizar, modalInsertar } = this.state;
+    const { data, form, modalActualizar, modalInsertar ,prev} = this.state;
 
     return (
       <>
@@ -123,7 +141,7 @@ class CRUD_records extends React.Component {
           <TableRecords data={data} mostrarModalActualizar={this.mostrarModalActualizar} eliminar={this.eliminar} />
         </Container>
 
-        <UpdateRecordModal isOpen={modalActualizar} form={form} cerrarModalActualizar={this.cerrarModalActualizar} handleChange={this.handleChange} editar={this.editar} />
+        <UpdateRecordModal isOpen={modalActualizar} form={form} cerrarModalActualizar={this.cerrarModalActualizar} handleChange={this.handleChange} editar={this.editar} prevValue={prev}/>
         <InsertRecordModal isOpen={modalInsertar} form={form} cerrarModalInsertar={this.cerrarModalInsertar} handleChange={this.handleChange} insertar={this.insertar} data={data} />
       </>
     );

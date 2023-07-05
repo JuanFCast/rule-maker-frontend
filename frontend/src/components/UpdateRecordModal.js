@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, FormGroup, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 
-const UpdateRecordModal = ({ isOpen, form, cerrarModalActualizar, handleChange, editar }) => (
+const UpdateRecordModal = ({ isOpen, form, cerrarModalActualizar, handleChange, editar ,prevValue}) => (
   <Modal isOpen={isOpen}>
     <ModalHeader>
       <div><h3>Editar Registro</h3></div>
@@ -26,7 +26,7 @@ const UpdateRecordModal = ({ isOpen, form, cerrarModalActualizar, handleChange, 
     <ModalFooter>
       <Button
         color="primary"
-        onClick={() => editar(form)}
+        onClick={() => editar(prevValue,form)}
       >
         Editar
       </Button>
