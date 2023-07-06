@@ -13,6 +13,7 @@ class CRUD_records extends React.Component {
     modalInsertar: false,
     form: {},
     prev:{},
+    void:{},
     columnKey:"name",
   };
 
@@ -22,9 +23,33 @@ class CRUD_records extends React.Component {
 
   fetchData = async () => {
     const baseUrl = "http://localhost:8080";
-  
+    await axios.get(
+      baseUrl + "/table/columns",
+      {
+        params: {
+          groupId: "MyGroup",
+          tableId: 1
+        },
+        headers: {
+          "Access-Control-Allow-Origin": baseUrl,
+          "MediaType": "application/json",
+          "Authorization": "Bearer " + localStorage.getItem('jwt')
+        }
+      }
+    ).then(
+      (responseColumns)=>{
+        let newForm={};
+        responseColumns.data.forEach(
+          column=>{
+            
+            newForm[column["id"]["name"]]=""
+          }
+        );
+        this.setState({ form:newForm,void:newForm});
+      }
+    );
     try {
-      const response = await axios.get(
+      await axios.get(
         baseUrl + "/table/get",
         {
           params: {
@@ -37,18 +62,13 @@ class CRUD_records extends React.Component {
             "Authorization": "Bearer " + localStorage.getItem('jwt')
           }
         }
+      ).then(
+        (response)=>{
+          if (response.data.data && response.data.data.length > 0) {
+            this.setState({ data: response.data.data});
+          }
+        }
       );
-  
-      // Aquí está tu nueva línea de código
-      response.data.data.forEach(objeto => { delete objeto._class; });
-  
-      console.log(response.data.data);
-  
-      if (response.data.data && response.data.data.length > 0) {
-        const form = {};
-        Object.keys(response.data.data[0]).forEach(key => form[key] = '');
-        this.setState({ data: response.data.data, form });
-      }
     } catch (error) {
       console.error(error);
     }
@@ -57,8 +77,14 @@ class CRUD_records extends React.Component {
   
 
   mostrarModalActualizar = (dato) => {
+    let newForm=this.state.void;
+    Object.keys(newForm).forEach(
+      key=>{
+        newForm[key]=dato[key]
+      }
+    )
     this.setState({
-      form: dato,
+      form: newForm,
       prev:dato,
       modalActualizar: true,
     });
@@ -69,10 +95,8 @@ class CRUD_records extends React.Component {
   };
 
   mostrarModalInsertar = () => {
-    console.log(this.state.data[0])
-    const form = this.state.data.length > 0 ? this.state.data[0] : {};
     this.setState({
-      form,
+      form:this.state.void,
       modalInsertar: true,
     });
   };
