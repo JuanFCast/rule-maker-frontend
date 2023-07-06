@@ -26,7 +26,8 @@ const EvaluateRecords = () => {
           }
         }
       ).then((response) => {
-        setData(response.data);
+        console.log(response.data.data);
+        setData(response.data.data);
       });
 
       axios.get(
@@ -38,6 +39,7 @@ const EvaluateRecords = () => {
           }
         }
       ).then((response) => {
+        console.log(response.data);
         setRules(response.data);
       });
 
