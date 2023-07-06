@@ -1,23 +1,100 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
+import axios from 'axios';
+import jwt_decode from "jwt-decode";
 import { Link } from 'react-router-dom';
 import { AiFillEdit, AiFillDelete } from 'react-icons/ai';
 import { BsPlusSquare } from 'react-icons/bs';
 import '../style/Menu.css';
 
 const Menu = () => {
-  const [groups, setGroups] = useState([
-    { groupId: '1', description: 'Group 1 Description', name: 'Group1' },
-    { groupId: '2', description: 'Group 2 Description', name: 'Group2' },
-    { groupId: '3', description: 'Group 3 Description', name: 'Group3' }
-  ]);
+  const [groups, setGroups] = useState([]);
 
-  const [tables, setTables] = useState([
-    { tableId: '1', title: 'Table1', groupId: '1', data: 'Data1' },
-    { tableId: '2', title: 'Table2', groupId: '2', data: 'Data2' },
-    { tableId: '3', title: 'Table3', groupId: '3', data: 'Data3' }
-  ]);
+
+  const [tables, setTables] = useState([ ]);
+
+  useEffect(async () => {
+    let data=[]
+    const groups=await getGroups()
+    groups.map(
+      group=>{
+        data.push(
+          { groupId: group.id, description: group.description, name: group.name },
+        )
+      }
+    )
+    data.push(groups)
+
+    setGroups(data)
+  }, []);
+
+  const getGroups=async() => {
+    const baseUrl = "http://localhost:8080";
+    let response = "";
+    const userID = jwt_decode(localStorage.getItem('jwt'))["userId"];
+    let data=[]
+    try {
+      response = await axios.get(
+        baseUrl + "/group/Mygroups",
+        {
+          params:{
+            userId:userID
+          },
+          headers: {
+            "MediaType": "application/json",
+            "Authorization": "Bearer " + localStorage.getItem('jwt')
+          }
+        }
+      );
+    } catch (error) {
+      console.error(error);
+      return [];
+    }
+    const groupData = await Promise.all(response.data.map(async userGroup => {
+      const responseGroups = await axios.get(
+        baseUrl + "/group/" + userGroup.groupId,
+        {
+          headers: {
+            "MediaType": "application/json",
+            "Authorization": "Bearer " + localStorage.getItem('jwt')
+          }
+        }
+      );
+      return responseGroups.data;
+    }));
+    return groupData
+  }
+
+  const getTable= async (group)=>{
+    const baseUrl="http://localhost:8080"
+    console.log(baseUrl)
+    let response =await axios.get(
+      baseUrl+"/table",
+      {
+        params:{
+          groupId:group["groupId"]
+        },
+        headers: {
+          "Access-Control-Allow-Origin": baseUrl,
+          "MediaType": "application/json",
+          "Authorization": "Bearer " + localStorage.getItem('jwt')
+        }
+      }
+    );
+    const data = response.data
+    let tables=[]
+    data.map(
+      table=>{
+        tables.push(
+          { tableId: table["id"]["tableId"], title: table["title"], groupId: table["id"]["groupId"], data:"" }
+        )
+      }
+    )
+    setTables(tables)
+  }
+  
 
   const selectGroup = (group) => {
+    getTable(group)
     localStorage.setItem('selectedGroup', group.name);
   };
 
@@ -64,7 +141,7 @@ const Menu = () => {
       <div className="left-container">
         <div className="container1">
           <h2>Groups</h2>
-          <BsPlusSquare onClick={() => createItem(setGroups, groups)} />
+          <BsPlusSquare onClick={() => createItem(setGroups, getGroups())} />
           <table className="groups-table">
             <thead>
               <tr>

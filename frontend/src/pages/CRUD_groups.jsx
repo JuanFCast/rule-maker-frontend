@@ -29,6 +29,7 @@ class CRUD_columns extends React.Component {
     const baseUrl = "http://localhost:8080";
     let response = "";
     const userID = jwt_decode(localStorage.getItem('jwt'))["userId"];
+    console.log(userID)
     try {
       response = await axios.get(
         baseUrl + "/group/Mygroups",
@@ -65,12 +66,22 @@ class CRUD_columns extends React.Component {
   };
 
   mostrarModalInsertar = () => {
+    const newForm={
+      groupId: "",
+      members:[],
+      description:"",
+      name:""
+    }
     this.setState({
       form: {
-        id: "",
+        groupId: "",
+        members:[],
+        description:"",
+        name:""
       },
       modalInsertar: true,
     });
+    this.state.form=newForm
   };
 
   cerrarModalInsertar = () => {
@@ -78,21 +89,72 @@ class CRUD_columns extends React.Component {
   };
 
   editar = (dato) => {
-    const arreglo = this.state.data.map(item => item.id === dato.id ? dato : item);
-    this.setState({ data: arreglo, modalActualizar: false });
+    const baseUrl = "http://localhost:8080/group/"+dato.groupId;
+        axios.put(baseUrl, {
+          groupId: dato.groupId,
+          members:dato.members,
+          description:dato.description,
+          name:dato.name
+
+        }, {
+          headers: {
+            "Access-Control-Allow-Origin": baseUrl,
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + localStorage.getItem('jwt')
+          }
+        })
   };
 
   eliminar = (dato) => {
     if (window.confirm("Estás Seguro que deseas Eliminar el elemento "+dato.id)) {
-      const arreglo = this.state.data.filter(item => item.id !== dato.id);
-      this.setState({ data: arreglo, modalActualizar: false });
+      const baseUrl = "http://localhost:8080/group/"+dato.id;
+      axios.delete(baseUrl,
+        {
+          headers: {
+            "Access-Control-Allow-Origin": baseUrl,
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + localStorage.getItem('jwt')
+          }
+      })
+      window.location.reload();
     }
   };
 
   insertar = () => {
-    const valorNuevo = { ...this.state.form, id: this.state.data.length + 1 };
-    const lista = [...this.state.data, valorNuevo];
-    this.setState({ modalInsertar: false, data: lista });
+    const baseUrl = "http://localhost:8080/group/";
+    const dato=this.state.form
+    axios.post(baseUrl,
+      {
+        groupId: dato.groupId,
+        members:[],
+        description:dato.description,
+        name:dato.name
+      },
+      {
+        headers: {
+          "Access-Control-Allow-Origin": baseUrl,
+          "Content-Type": "application/json",
+          "Authorization": "Bearer " + localStorage.getItem('jwt')
+        }
+    }).then(
+      (response)=>{
+        const baseUrl = "http://localhost:8080/group/member";
+        const userID = jwt_decode(localStorage.getItem('jwt'))["userId"];
+        axios.put(baseUrl, {
+          groupId: dato.groupId,
+          emails: userID,
+          role:"OWNER"
+
+        }, {
+          headers: {
+            "Access-Control-Allow-Origin": baseUrl,
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + localStorage.getItem('jwt')
+          }
+        })
+      }
+    );
+    window.location.reload();
   }
 
   handleChange = (e) => {
@@ -118,7 +180,7 @@ class CRUD_columns extends React.Component {
         </Container>
 
         <UpdateGroup isOpen={modalActualizar} form={form} cerrarModalActualizar={this.cerrarModalActualizar} handleChange={this.handleChange} editar={this.editar} />
-        <InsertGroup isOpen={modalInsertar} form={form} cerrarModalInsertar={this.cerrarModalInsertar} handleChange={this.handleChange} insertar={this.insertar} data={data} />
+        <InsertGroup isOpen={modalInsertar} form={this.state.form} cerrarModalInsertar={this.cerrarModalInsertar} handleChange={this.handleChange} insertar={this.insertar} data={data} />
       </>
     );
   }
