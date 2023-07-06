@@ -88,16 +88,29 @@ const EvaluateRecords = () => {
       </table>
 
       <h2>Selecciona una regla</h2>
-      <ul>
-        {rules.map((rule, index) => (
-          <li key={index} 
-              className={selectedRuleIndex === index ? 'selected' : ''}
-              onClick={() => handleRuleSelection(index)}
-          >
-            {rule.name}
-          </li>
-        ))}
-      </ul>
+<table>
+  <thead>
+    <tr>
+      <th>Nombre</th>
+      <th>Regla</th>
+    </tr>
+  </thead>
+  <tbody>
+    {rules.map((rule, index) => (
+      <tr key={index} 
+          className={selectedRuleIndex === index ? 'selected' : ''}
+          onClick={() => handleRuleSelection(index)}
+      >
+        <td>{rule.name}</td>
+        <td>{rule.rule}</td>
+      </tr>
+    ))}
+  </tbody>
+</table>
+
+
+
+
 
       <button onClick={applyRule}>Aplicar regla</button>
 
