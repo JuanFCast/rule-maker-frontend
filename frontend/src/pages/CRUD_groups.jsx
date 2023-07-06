@@ -1,25 +1,57 @@
 import React from "react";
+import axios from 'axios';
+import jwt_decode from "jwt-decode";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Button, Container } from "reactstrap";
 import TableGroup from '../components/TableGroup';
 import UpdateGroup from '../components/UpdateGroup';
 import InsertGroup from '../components/InsertGroup';
 
-const data = [
-  { id: 1, grupos: "MyGroup" },
-  { id: 2, grupos: "MyGroup 2" }
-];
 
 class CRUD_columns extends React.Component {
   state = {
-    data,
+    data:[],
     modalActualizar: false,
     modalInsertar: false,
     form: {
-      id: "",
-      grupos: ""
+      id: ""
     },
   };
+
+  async componentDidMount() {
+    const groups = await this.getGroups();
+    console.log(groups)
+    this.setState({ data: groups });
+
+  }
+
+  async getGroups() {
+    const baseUrl = "http://localhost:8080";
+    let response = "";
+    const userID = jwt_decode(localStorage.getItem('jwt'))["userId"];
+    try {
+      response = await axios.get(
+        baseUrl + "/group/Mygroups",
+        {
+          params:{
+            userId:userID
+          },
+          headers: {
+            "MediaType": "application/json",
+            "Authorization": "Bearer " + localStorage.getItem('jwt')
+          }
+        }
+      );
+    } catch (error) {
+      console.error(error);
+      return [];
+    }
+    return response.data.map(group => {
+      return {
+        id: group.groupId,
+      };
+    });
+  }
 
   mostrarModalActualizar = (dato) => {
     this.setState({
@@ -36,7 +68,6 @@ class CRUD_columns extends React.Component {
     this.setState({
       form: {
         id: "",
-        grupos: ""
       },
       modalInsertar: true,
     });
