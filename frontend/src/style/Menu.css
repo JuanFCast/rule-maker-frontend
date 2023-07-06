@@ -1,0 +1,25 @@
+.menu-container {
+  text-align: center;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px; /* Margen superior entre el título y los botones */
+}
+
+.buttons button {
+  margin-bottom: 10px; /* Espacio entre botones */
+  background-color: #dc5858; /* Color de fondo del botón */
+  color: white; /* Color de texto del botón */
+  padding: 10px 20px; /* Espacio interno del botón */
+  border: none; /* Quita el borde del botón */
+  border-radius: 8px; /* Agrega esquinas redondeadas al botón */
+  cursor: pointer; /* Cambia el cursor al pasar por encima del botón */
+  transition-duration: 0.3s; /* Duración de la transición al pasar el cursor */
+}
+
+.buttons button:hover {
+  background-color: #f37c7c; /* Color de fondo del botón al pasar el cursor */
+}

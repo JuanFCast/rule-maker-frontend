@@ -44,7 +44,7 @@ const Login = () => {
           setTimeout(() => {
             setMensaje("");
             localStorage.setItem("jwt", res.data.token);
-            navigate(`/welcome`);
+            navigate(`/Menu`);
           }, 1500);
         })
         .catch((error) => {
