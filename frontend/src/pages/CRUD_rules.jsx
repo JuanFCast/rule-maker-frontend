@@ -15,7 +15,7 @@ class CRUD_rules extends React.Component {
       id: "",
       Name: "",
       Rules: ""
-    },
+    }
   };
 
   async componentDidMount() {
@@ -27,6 +27,7 @@ class CRUD_rules extends React.Component {
     this.getRules();
     this.setState({
       form: dato,
+      prev:dato,
       modalActualizar: true,
     });
   };
@@ -51,21 +52,50 @@ class CRUD_rules extends React.Component {
   };
 
   editar = (dato) => {
-    const arreglo = this.state.data.map(item => item.id === dato.id ? dato : item);
-    this.setState({ data: arreglo, modalActualizar: false });
+    const baseUrl = "http://localhost:8080/rule";
+    axios.put(baseUrl+"/"+dato.id, {
+      name: dato.Name,
+      rule: dato.Rules
+    }, {
+      headers: {
+        "Access-Control-Allow-Origin": baseUrl,
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + localStorage.getItem('jwt')
+      }
+    })
+    window.location.reload();
   };
 
   eliminar = (dato) => {
-    if (window.confirm("Estás Seguro que deseas Eliminar el elemento "+dato.id)) {
-      const arreglo = this.state.data.filter(item => item.id !== dato.id);
-      this.setState({ data: arreglo, modalActualizar: false });
+    if (window.confirm("Estás Seguro que deseas Eliminar el elemento "+dato.Name)) {
+      const baseUrl = "http://localhost:8080/rule";
+      axios.delete(baseUrl+"/"+dato.id,{},
+        {
+          headers: {
+            "Access-Control-Allow-Origin": baseUrl,
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + localStorage.getItem('jwt')
+          }
+      })
+      window.location.reload();
     }
   };
 
   insertar = () => {
-    const valorNuevo = { ...this.state.form, id: this.state.data.length + 1 };
-    const lista = [...this.state.data, valorNuevo];
-    this.setState({ modalInsertar: false, data: lista });
+    const baseUrl = "http://localhost:8080/rule/create";
+    axios.post(baseUrl,
+      {
+        name: this.state.form.Name,
+        rule: this.state.form.Rules
+      },
+      {
+        headers: {
+          "Access-Control-Allow-Origin": baseUrl,
+          "Content-Type": "application/json",
+          "Authorization": "Bearer " + localStorage.getItem('jwt')
+        }
+    })
+    window.location.reload();
   }
 
   handleChange = (e) => {
@@ -90,7 +120,7 @@ class CRUD_rules extends React.Component {
           <TableRule data={data} mostrarModalActualizar={this.mostrarModalActualizar} eliminar={this.eliminar} />
         </Container>
         
-        <UpdateRule isOpen={modalActualizar} form={form} cerrarModalActualizar={this.cerrarModalActualizar} handleChange={this.handleChange} editar={this.editar} />
+        <UpdateRule isOpen={modalActualizar} form={form} cerrarModalActualizar={this.cerrarModalActualizar} handleChange={this.handleChange} editar={this.editar}/>
         <InsertRule isOpen={modalInsertar} form={form} cerrarModalInsertar={this.cerrarModalInsertar} handleChange={this.handleChange} insertar={this.insertar} data={data} />
       </>
     );
