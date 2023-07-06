@@ -1,7 +1,7 @@
 import React from "react";
 import axios from 'axios';
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Button, Container } from "reactstrap";
+import { Button, Container, Input } from "reactstrap";
 import TableRecords from '../components/TableRecords';
 import UpdateRecordModal from '../components/UpdateRecordModal';
 import InsertRecordModal from '../components/InsertRecordModal';
@@ -165,12 +165,23 @@ class CRUD_records extends React.Component {
     });
   };
 
+  handleChangeKey = (e) => {
+    this.setState({ newColumnKey: e.target.value });
+  }
+
+  handleClickKey = () => {
+    this.setState({ columnKey: this.state.newColumnKey });
+  }
+
   render() {
     const { data, form, modalActualizar, modalInsertar ,prev} = this.state;
 
     return (
       <>
         <Container>
+          <br />
+          <Input type="text" value={this.state.newColumnKey} onChange={this.handleChangeKey} />
+          <Button onClick={this.handleClickKey}>Cambiar Key</Button>
           <br />
           <Button color="success" onClick={this.mostrarModalInsertar}>Insertar nuevo registro</Button>
           <br />
