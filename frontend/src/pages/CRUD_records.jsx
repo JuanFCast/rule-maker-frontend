@@ -14,7 +14,7 @@ class CRUD_records extends React.Component {
     form: {},
     prev:{},
     void:{},
-    columnKey:"name",
+    columnKey:localStorage.getItem("columnKey"),
   };
 
   componentDidMount() {
@@ -22,6 +22,7 @@ class CRUD_records extends React.Component {
   }
 
   fetchData = async () => {
+    console.log(this.state.columnKey)
     const baseUrl = "http://localhost:8080";
     await axios.get(
       baseUrl + "/table/columns",
@@ -110,7 +111,6 @@ class CRUD_records extends React.Component {
     // Por ahora, actualizamos solo el estado local
     const baseUrl = "http://localhost:8080/table/update";
     const column=this.state.columnKey;
-    console.log(prev)
     axios.put(baseUrl, {
       groupId: "MyGroup",
       tableId: 1,
@@ -194,6 +194,7 @@ class CRUD_records extends React.Component {
   }
 
   handleClickKey = () => {
+    localStorage.setItem("columnKey",this.state.newColumnKey);
     this.setState({ columnKey: this.state.newColumnKey });
   }
 
