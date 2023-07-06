@@ -5,54 +5,21 @@ import TableGroup from '../components/TableGroup';
 import UpdateGroup from '../components/UpdateGroup';
 import InsertGroup from '../components/InsertGroup';
 
+const data = [
+  { id: 1, grupos: "MyGroup" },
+  { id: 2, grupos: "MyGroup 2" }
+];
+
 class CRUD_columns extends React.Component {
   state = {
-    data:[],
+    data,
     modalActualizar: false,
     modalInsertar: false,
     form: {
       id: "",
-      name: "",
-      members:[]
+      grupos: ""
     },
   };
-
-  async componentDidMount() {
-    const groups = await this.getRules();
-    this.setState({ data: groups });
-  }
-
-  async getRules() {
-    const baseUrl = "http://localhost:8080";
-    let response = "";
-    
-    try {
-      response = await axios.get(
-        baseUrl + "/group/MyGroup",
-        {
-          param:{
-            userId:"otro@gmail.com"
-          },
-          headers: {
-            "MediaType": "application/json",
-            "Authorization": "Bearer " + localStorage.getItem('jwt')
-          }
-        }
-      );
-      console.log(response.data);
-    } catch (error) {
-      console.error(error);
-      return [];
-    }
-    return response.data.map(group => {
-      return {
-        id: group.id,
-        name: group.name,
-        members: group.members
-      };
-    });
-  }
-  }
 
   mostrarModalActualizar = (dato) => {
     this.setState({
@@ -124,6 +91,6 @@ class CRUD_columns extends React.Component {
       </>
     );
   }
-
+}
 
 export default CRUD_columns;

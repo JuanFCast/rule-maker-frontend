@@ -53,11 +53,26 @@ const EvaluateRecords = () => {
     setSelectedRuleIndex(index);
   }
 
-  const applyRule = () => {
-    // Aquí es donde se necesita implementar la lógica para evaluar la regla seleccionada en los datos seleccionados
-    // La implementación exacta depende de cómo estén estructuradas las reglas y de qué tipo de lógica quieran permitir
-    const result = "Verdadero"; // Este es un valor de demostración
-    setResult(`Al evaluar el registro ${selectedData.ID} contra la regla ${selectedRuleIndex + 1}, el resultado es ${result}.`);
+  const applyRule = async () => {
+    const baseUrl = "http://localhost:8080/evaluation/doEvaluation";
+    const selectedRule = rules[selectedRuleIndex];
+    
+    let response=await axios.post(baseUrl,
+      {
+        data:selectedData,
+        rule:{
+          name:selectedRule.name,
+          rule:selectedRule.rule
+        }
+      },
+      {
+        headers: {
+          "Access-Control-Allow-Origin": baseUrl,
+          "Content-Type": "application/json",
+          "Authorization": "Bearer " + localStorage.getItem('jwt')
+        }
+    })
+    setResult(`Al evaluar el registro ${selectedData.ID} contra la regla ${selectedRuleIndex + 1}, el resultado es ${response.data}.`);
   }
 
   return (
