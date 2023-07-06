@@ -1,7 +1,7 @@
 import React from 'react';
 import { Table, Button } from 'reactstrap';
 
-const TableRule = ({ data, mostrarModalActualizar, eliminar }) => (
+const TableRule = ({ data, mostrarModalActualizar, eliminar, asignarKey }) => (
   <Table>
     <thead>
       <tr>
@@ -22,7 +22,8 @@ const TableRule = ({ data, mostrarModalActualizar, eliminar }) => (
             >
               Editar
             </Button>{" "}
-            <Button color="danger" onClick={() => eliminar(dato)}>Eliminar</Button>
+            <Button color="danger" onClick={() => eliminar(dato)}>Eliminar</Button>{" "}
+            <Button color="info" onClick={() => asignarKey(dato)}>Asignar Key</Button>
           </td>
         </tr>
       ))}
